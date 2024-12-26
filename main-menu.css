@@ -1,0 +1,35 @@
+#main_menu {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(255, 255, 255, .5);
+  backdrop-filter: blur(4px);
+}
+
+#main_menu button {
+  display: block;
+  margin: 40px 45%;
+  width: 10%;
+  height: 40px;
+  font-size: x-large;
+}
+
+#main_menu p {
+  display: block;
+  margin-top: 200px;
+  width: 100%;
+  font-size: 128px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#game_stats {
+  position: absolute;
+  color: red;
+}
+
+#game_stats span {
+  margin: 4px;
+}

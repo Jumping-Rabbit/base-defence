@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Base Defense</title>
+    <meta charset="UTF-8">
+    <script src="game-config.js"></script>
+    <script src="game-engine.js"></script>
+    <link rel="stylesheet" href="main-menu.css">
+    <link rel="stylesheet" href="game.css">
+  </head>
+  <body onload="gameEngineInit()">    
+    <canvas id="game_field" width="1600" height="1024"></canvas>
+    <div id="main_menu">
+      <p>Base Defence</p>
+      <button id="new_game">New Game</button>
+      <button id="load_game">Load Game</button>
+      <button id="save_game">Save Game</button>
+    </div>
+    <div id="game_stats">
+      <span id="fps"></span>
+    </div>
+  </body>
+</html>
