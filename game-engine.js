@@ -11,6 +11,7 @@ var game = {
 };
 
 var buildingImages = {};
+var buildingIcons = {};
 
 var frameCounter = 0;
 
@@ -38,6 +39,7 @@ function gameEngineInit() {
   canvas.style.left = (window.innerWidth - canvasScale * 1600) / 2 + "px";
   canvas.addEventListener("click", canvasClicked);
   canvas.addEventListener("mousemove", canvasMouseMove);
+  canvas.addEventListener('contextmenu', canvasRightClicked);
 
   var newGameBtn = document.getElementById("new_game");
   newGameBtn.addEventListener("click", newGame);
@@ -51,6 +53,8 @@ function gameEngineInit() {
   for (const building of config.buildings) {
     buildingImages[building.type] = new Image();
     buildingImages[building.type].src = building.type + ".png";
+    buildingIcons[building.type] = new Image();
+    buildingIcons[building.type].src = building.type + "-icon.png";
   }
 }
 
@@ -96,6 +100,14 @@ function canvasClicked(e) {
   }  
 }
 
+function canvasRightClicked(e) {
+  e.preventDefault();
+  if (game.control_state == "building") {
+    game.control_state = "none";
+    delete game.building_mode;
+  }
+}
+
 function canvasMouseMove(e) {
   var mouse = {x: e.offsetX / canvasScale, y: e.offsetY / canvasScale};
   if (game.control_state == "building") {
@@ -107,6 +119,8 @@ function canvasMouseMove(e) {
       delete game.building_mode.y;
     }
   }
+
+  canvas.style.cursor = (game.control_state == "building" && mouse.x < 1280) ? "none" : "auto";
 }
 
 const resourceWidgetWidth = 320 / Object.keys(config.resources).length;
@@ -135,7 +149,9 @@ function frame() {
       }
     }
     if (game.building_mode.x != undefined) {
+      canvasCtx.globalAlpha = 0.33;
       canvasCtx.drawImage(buildingImages[game.building_mode.type], game.building_mode.x * 32, game.building_mode.y * 32);
+      canvasCtx.globalAlpha = 1;
     }
   }
 
@@ -157,11 +173,7 @@ function frame() {
     var buildingYOffset = 32 + i * 96;
     canvasCtx.fillStyle = "#000";
     canvasCtx.fillText(building.title, controlAreaX + 4, buildingYOffset + 5);
-
-    canvasCtx.drawImage(buildingImages[building.type], 
-        0, 0, buildingImages[building.type].naturalWidth, buildingImages[building.type].naturalHeight,
-        controlAreaX, buildingYOffset + 32, 64, 64);
-
+    canvasCtx.drawImage(buildingIcons[building.type], controlAreaX, buildingYOffset + 32);
     canvasCtx.fillText("Cost: ", controlAreaX + 72, buildingYOffset + 37);
     var j = 0;
     for (const resourceType in building.building_cost) {
